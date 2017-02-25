@@ -1,0 +1,91 @@
+*{
+  margin:0;
+  padding:0;
+}
+/*背景样式*/
+.container{
+  width:580px;
+  height:385px;
+}
+.back {
+  width: 580px;
+  height: 385px;
+  background: url("西伯利亚猫.jpg") no-repeat;
+}
+.container:hover .back{
+  filter: blur(2px);
+}
+/*四边边框样式*/
+.one{
+  width:382px;
+  height:285px;
+  border-top: 4px solid white;
+  border-bottom: 4px solid white;
+  margin:0 auto ;
+  position: absolute;
+  top:48px;
+  left:99px;
+  transform: rotateY(90deg);
+  transition: transform 1s ease;
+}
+.container:hover .one{
+  transform:rotateY(0deg);
+}
+.two{
+  width:378px;
+  height:290px;
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+  position: absolute;
+  top:48px;
+  left:99px;
+  transform:rotateX(90deg);
+  transition: transform 1s ease;
+}
+.container:hover .two{
+  transform:rotateX(0deg);
+}
+.three{
+  position: absolute;
+  top:155px;
+  left:130px;
+  transform-origin: 0 50%;
+  transform: rotateX(90deg);
+  transition:transform 1s ease;
+}
+.container:hover .three{
+  transform:rotateX(0deg);
+}
+
+/*文字样式*/
+p:nth-child(1){
+  font-size: 40px;
+  text-align: center;
+  background-image: -webkit-linear-gradient(left, #f32a30, #ee51dd, #6de6e6, #f32a30, #ee51dd);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-size: 200% 100%;
+  -webkit-animation: p1-color 4s infinite linear;
+
+}
+p:nth-child(2){
+  font-size: 30px;
+  text-align: center;
+  padding-top:30px;
+  color: red;
+  animation: p2-color 4s 3 linear;
+
+}
+/*动画样式*/
+@keyframes p1-color {
+  0% {background-position: 0 0}
+  100% {background-position: -100% 0}
+}
+@keyframes p2-color {
+  0% {color:red}
+  40% {color:yellow;}
+  70%{color:green;}
+  100% {color:blue;}
+}
+
+
