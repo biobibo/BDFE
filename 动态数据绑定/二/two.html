@@ -17,9 +17,13 @@
   let pro = Observer.prototype;
 
 
-  //实现事件监听
+  //添加要改变属性的事件
   pro.$watch=function (attr,callback) {
     this.eventline.on(attr,callback);
+  };
+  //删除属性事件
+  pro.$cancel=function (attr) {
+    this.eventline.off(attr);
   };
   //对属性遍历，属性值是对象则递归遍历
   pro.walk=function (obj) {
