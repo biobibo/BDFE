@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>demo</title>
+</head>
+<body>
+<div>console</div>
+</body>
+<script>
+  function Observer(data) {
+    this.data=data;
+    this.walk(data);
+    this.eventline=new Event();
+  }
+  //在原型对象上创建属性方法
+  let pro = Observer.prototype;
+
+
+  //实现事件监听
+  pro.$watch=function (attr,callback) {
+    this.eventline.on(attr,callback);
+  };
+  //对属性遍历，属性值是对象则递归遍历
+  pro.walk=function (obj) {
+    let val;
+    for (let key in obj){
+      if (obj.hasOwnProperty(key)){
+        val=obj[key];
+        if (typeof val ==='object'){
+          new Observer(val);
+        }
+        this.convert(key,val);
+      }
+    }
+  };
+
+  //对象取值和设值并触发相应事件
+  pro.convert=function (key,val) {
+    let _this=this;
+    Object.defineProperty(this.data,key,{
+      configurable:true,
+      // writable:true,
+      enumerable:true,
+      get:function () {
+        console.log('你访问了'+ key+'  '+'其值为：'+val);
+        return  val;
+      },
+      set:function (newVal) {
+        console.log('你设置了'+key);
+        console.log('新的'+key+'='+newVal);
+        _this.eventline.emit(key,val,newVal);
+        val=newVal;
+        if(typeof newVal === 'object'){
+          new Observer(val)
+        }
+      }
+    })
+  };
+
+
+  //事件模型
+  function Event() {
+    this.events={}
+  }
+
+  Event.prototype.on=function (attr,callback) {
+    if (this.events[attr]){
+      this.events[attr].push(callback);
+    }else {
+      this.events[attr]=[callback];
+    }
+  };
+
+  Event.prototype.off=function (attr) {
+    for (let key in this.events){
+      if (this.events.hasOwnProperty(key) && key === attr){
+        delete this.events[attr];
+      }
+    }
+  };
+  Event.prototype.emit=function (attr, ...args) {
+    this.events[attr] && this.events[attr].forEach(function (item) {
+      item(...args);
+    })
+  };
+</script>
+</html>
