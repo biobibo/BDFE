@@ -19,22 +19,24 @@ pro.walk=function (obj) {
 };
 pro.convert=function (key,val) {
   Object.defineProperty(this.data,key,{
-    // configurable:true,
+    configurable:true,
     // writable:true,
-    // enumerable:true,
+    enumerable:true,
     get:function () {
       console.log('你访问了'+ key+'  '+'其值为：'+val);
       return  val;
     },
     set:function (newVal) {
-      if (val === newVal) {return '';}
+       if(typeof newVal === 'object'){
+        new Observer(val)
+      }
       else{
-      console.log('你设置了'+key+'  '+'新的值为：'+newVal);
+      console.log('你设置了'+key);
+      console.log('新的'+key+'='+newVal);
       val=newVal;
       }
 
     }
   })
 };
-
 
